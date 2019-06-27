@@ -1,0 +1,322 @@
+import java.util.Map.Entry;
+import java.util.Scanner;
+
+public class Client {
+
+	//private static final String AccNo = null;
+	private String userName;
+    private String passWord;
+	 private  String accountNumber;
+	 private double balance;
+	 private String transactionDetails;
+	 
+	 
+//	public Client(String userName, String passWord, String accountNumber, double balance) {
+//		super();
+//		this.userName = userName;
+//		this.passWord = passWord;
+//		this.accountNumber = accountNumber;
+//		this.balance = balance;
+//	}
+	
+//	public Client(String accountNumber, String userName, String passWord, double balance) {
+//		
+//		super();
+//		this.userName = userName;
+//		this.passWord = passWord;
+//		this.accountNumber = accountNumber;
+//		this.balance = balance;
+//	}
+	 
+	 
+//	 public Client(String userName, String passWord, String accountNumber, double balance, String transactionDetails) {
+//			super();
+//			this.userName = userName;
+//			this.passWord = passWord;
+//			this.accountNumber = accountNumber;
+//			this.balance = balance;
+//			this.transactionDetails = transactionDetails;
+//		}
+//	 
+	 public Client(String accountNumber, String userName, String passWord, double balance,
+			String transactionDetails) {
+		
+		 this.userName = userName;
+			this.passWord = passWord;
+			this.accountNumber = accountNumber;
+			this.balance = balance;
+			this.transactionDetails = transactionDetails;
+	}
+
+	public Client() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getUserName() {
+			return userName;
+		}
+
+
+		public void setUserName(String userName) {
+			this.userName = userName;
+		}
+
+
+		public String getPassWord() {
+			return passWord;
+		}
+
+
+		public void setPassWord(String passWord) {
+			this.passWord = passWord;
+		}
+
+
+		public String getAccountNumber() {
+			return accountNumber;
+		}
+
+
+		public void setAccountNumber(String accountNumber) {
+			this.accountNumber = accountNumber;
+		}
+
+
+		public double getBalance() {
+			return balance;
+		}
+
+
+		public void setBalance(double balance) {
+			this.balance = balance;
+		}
+
+
+		public String getTransactionDetails() {
+			return transactionDetails;
+		}
+
+//	public String getUserName() {
+//		return userName;
+//	}
+//	
+//	public void setUserName(String userName) {
+//		this.userName = userName;
+//	}
+//
+//	public String getPassWord() {
+//		return passWord;
+//	}
+//
+//	public void setPassWord(String passWord) {
+//		this.passWord = passWord;
+//	}
+//
+//	public String getAccountNumber() {
+//		return accountNumber;
+//	}
+//
+//	public void setAccountNumber(String accountNumber) {
+//		this.accountNumber = accountNumber;
+//	}
+//
+//	public double getBalance() {
+//		return balance;
+//	}
+//
+//	public void setBalance(double balance) {
+//		this.balance = balance;
+//	}
+
+	
+	
+	
+	public static void login(String cname, String cpwd) {
+		
+		
+		
+		
+			for (Entry<String, Client> me : Admin.clist.entrySet()) 
+	        {
+	            String ac=me.getKey();
+	           String un =me.getValue().getUserName();
+	          
+			if(un.equals(cname)){
+			String p= 	me.getValue().getPassWord();
+				if(p.equals(cpwd)) {
+					System.out.println("login Succesfull");
+					display(ac);
+					break;
+				  }
+				else {
+						System.out.println("wrong password");
+				}
+			}
+			 else {
+				System.out.println("username not found");		
+					
+			 }
+			}
+			}
+            	
+            
+
+
+   
+	 public void setTransactionDetails(String transactionDetails) {
+	                              	this.transactionDetails = transactionDetails;
+	}
+
+
+	public static void display(String ac) {
+		
+		int che;
+		do{
+		System.out.println("please select your option");
+		System.out.println("1.deposit");
+		System.out.println("2.withdraw");
+		System.out.println("3.fund Transfer");
+		System.out.println("4.checkBalance");
+		System.out.println("5.transactionDetails");
+		System.out.println("6.logout");
+		System.out.println("enter option");
+		@SuppressWarnings("resource")
+		Scanner sc= new Scanner(System.in);
+		int ch=sc.nextInt();
+
+		switch(ch){
+		case 1 : System.out.println("enter the deposit money");
+		         double de=sc.nextDouble();
+		          deposit(de,ac);
+		          break;
+		case 2 : System.out.println("enter the withdraw money");
+	             double widr=sc.nextDouble();
+	             withDraw(widr,ac);    
+	             break;
+		case 3 :  System.out.println("enter the account number and amount");
+		          String acno=sc.next();
+		          double amut=sc.nextDouble();
+		          fundTransfer(acno,amut,ac);
+		          break;
+		case 4 : checkBalance(ac);
+		            break;
+		
+		case 5 :
+			transactionPrint(ac);
+			break;
+			
+//			logout();
+//		 default:System.out.println("enter correct option");
+		case 6:
+			Admin a = new Admin();
+			a.logout();
+		}
+		
+	 System.out.println("u want to continue 1=yes 2=no");
+	 che=sc.nextInt();
+	 }while(che==1);
+		
+	}
+
+	public static void transactionPrint(String accNo) {
+		
+		System.out.println(Admin.clist.get(accNo).getUserName());
+		System.out.println(Admin.clist.get(accNo).getTransactionDetails());
+	}
+
+	public static void transaction(String AccNo,String str) {
+  
+		String bal1 =Admin.clist.get(AccNo).getTransactionDetails();
+
+		
+		str=bal1+str;
+		String str1=str.concat("\n");
+		Admin.clist.get(AccNo).setTransactionDetails(str1);
+	}
+//	public static void transaction1(String AccNo,String str) {
+//		  
+//		String bal1 =Admin.clist.get(AccNo).getTransactionDetails();
+//
+//		bal1=bal1.concat(str);
+//		Admin.clist.get(AccNo).setTransactionDetails(bal1);
+//	}
+
+	public static void logout() {
+		
+		System.out.println("logout successfully");
+		
+	}
+
+	public static void checkBalance(String AccNo) {
+		
+		System.out.println("your account balance is");
+		System.out.println(Admin.clist.get(AccNo).getBalance());
+		
+	}
+
+	public static void fundTransfer(String acno, double amut, String AccNo) {
+		
+		double balance =Admin.clist.get(AccNo).getBalance();
+	      if(balance<amut)
+	      {
+	    	  System.out.println("your balance is not sufficient");
+	    	  
+	      }
+	      if ( (Admin.clist.get(acno)) != null){
+	    	  double balance2=Admin.clist.get(acno).getBalance();
+	    	  balance2=balance2+amut;
+	    	  balance=balance-amut;
+	    	  String str=" ";
+	    	  str=str+amut;
+	    	  String str1="-".concat(str);
+	    	  String str2=str1.concat(" received to "+Admin.clist.get(acno).getUserName());
+	    	  transaction(AccNo,str2);
+	    	  Admin.clist.get(acno).setBalance(balance2);
+	    	  String s="";
+	    	  s=s+amut;
+	    	  str="+".concat(s);
+	    	  String s2=str.concat(" transferred  from "+Admin.clist.get(acno).getUserName());
+	    	  transaction(acno,s2);
+	    	  Admin.clist.get(AccNo).setBalance(balance);
+	    	  System.out.println("succesfully transferred");
+	      }
+	      else{
+	    	  System.out.println("account number doesn't exists");
+	      }
+		
+	}
+
+	public static void withDraw(double widr, String AccNo) {
+		
+		double balance=Admin.clist.get(AccNo).getBalance();
+		if((balance-widr)>0){
+			balance= balance-widr;
+			String str=" ";
+			str=str+widr;
+			String s1="-".concat(str);
+			transaction(AccNo,s1);
+		Admin.clist.get(AccNo).setBalance(balance);
+		System.out.println("withdraw amount is....:"+widr);
+		//System.out.println("your new balance is:"+Admin.clist.get(AccNo).getBalance());
+		checkBalance(AccNo);
+		}
+		else
+			System.out.println("insufficient funds");
+	}
+
+	public static void deposit(double de, String AccNo) {
+		double bal=Admin.clist.get(AccNo).getBalance();
+		bal=bal+de;
+		String str="";
+		str=str+de;
+		String str1="+".concat(str);
+		String str2=str.concat(" myself");
+		transaction(AccNo,str2);
+		Admin.clist.get(AccNo).setBalance(bal);
+		System.out.println("deposit amount is.....:"+de);
+		checkBalance(AccNo);
+		
+		
+	}
+
+}
