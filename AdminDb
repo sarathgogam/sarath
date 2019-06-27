@@ -1,0 +1,183 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+
+public class AdminDB {
+	static Connection con;
+	static Statement stmt;
+	static PreparedStatement pst;
+	
+
+	public static void main(String[] args) throws SQLException {
+		
+
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+	
+		 con=DriverManager.getConnection("jdbc:oracle:thin:@192.168.1.5:1521:gdasdev","dams_freshers","dams_freshers");  
+		 stmt=con.createStatement(); 
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+		
+		AdminDB a1 = new AdminDB();
+		
+		
+		Scanner sc= new Scanner(System.in);
+		int choice;
+		int ch;
+		do {
+			
+			System.out.println("1.Admin");
+			System.out.println("2.client");
+			System.out.println("enter your choice");
+			choice=sc.nextInt();
+			sc.nextLine();
+			switch(choice){
+			case 1:System.out.println("admin username and Password");
+				   String uname=sc.next();
+				   String pass=sc.next();
+				   a1.loginDb(uname,pass); 
+				   break;
+			case 2:System.out.println("client UserName and Password");
+			       String cname=sc.next();
+			       String cpwd=sc.next();
+                    Client c1=new Client();
+			       c1.login(cname,cpwd); 
+			       break;
+			}
+			System.out.println("want to login once again press 1=to continue  2=no ");
+			ch=sc.nextInt();
+			}while(ch==1);
+		
+	}
+
+	public void loginDb(String uname, String pass)  {
+		
+		
+		
+	
+		ResultSet rs;
+		try {
+			rs = stmt.executeQuery("select * from S_ADMIN where USERNAME='"+uname+"'");
+		
+		while(rs.next()){  
+			String u=rs.getString(1);
+			String p=rs.getString(2);
+			System.out.println(u);
+			System.out.println(p);
+			if(u.equals(uname)&& p.equals(pass))
+					{
+				       System.out.println("successful");
+					}
+			}  } catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+		int ch;
+		do{
+		System.out.println("select your choice");
+		System.out.println("1.list clients");
+		System.out.println("2.Add client");
+		System.out.println("3.remove client");
+		System.out.println("4.logout");
+		
+		Scanner sc=new Scanner(System.in);
+		int choice=sc.nextInt();
+		
+		
+		switch(choice){
+		case 1: listUser();
+
+		        break;
+		case 2: 
+		        addClient();
+				break;
+		case 3: 
+		         System.out.println("enter account number to remove");
+		         String num=sc.next();
+		         removeClient(num);
+				break;
+		case 4:
+
+			logout();
+				
+		}
+		System.out.println("you want to continue 1=yes  2=no");
+		 ch =sc.nextInt();
+		}while(ch ==1);
+		
+			
+//			
+//		int ch;
+//		do{
+//		System.out.println("select your choice");
+//		System.out.println("1.list clients");
+//		System.out.println("2.Add client");
+//		System.out.println("3.remove client");
+//		System.out.println("4.logout");
+//		@SuppressWarnings("resource")
+//		Scanner sc=new Scanner(System.in);
+//		int choice=sc.nextInt();
+//		
+//		
+//		switch(choice){
+//		case 1: listUser();
+////		System.out.println(clist);
+//		        break;
+//		case 2: 
+//		        addClient();
+//				break;
+//		case 3: 
+//		         System.out.println("enter account number to remove");
+//		         String num=sc.next();
+//		         removeClient(num);
+//				break;
+//		case 4:
+////			Admin a = new Admin();
+//			logout();
+//		//default:System.out.println("you selected wrong option");		
+//		}
+//		System.out.println("you want to continue 1=yes  2=no");
+//		 ch =sc.nextInt();
+//		}while(ch ==1);
+		
+	}
+
+	private static void logout() {
+	
+		System.out.println("logout successfully");
+		
+	}
+
+	private static void removeClient(String num) {
+		
+		
+	}
+
+	private static void addClient() {
+
+
+		Scanner sc=new Scanner(System.in);
+		System.out.println("enter client account number");
+		String accountNumber=sc.next();
+		System.out.println("enter client username");
+		String userName=sc.next();
+		System.out.println("enter client password");
+		String passWord=sc.next();
+		System.out.println("enter client balance");
+		double balance=sc.nextDouble();
+		
+	}
+
+	private static void listUser() {
+
+
+		
+	}
+}
