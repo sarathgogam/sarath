@@ -1,0 +1,141 @@
+import java.util.HashMap;
+import java.util.Scanner;
+import java.util.Map.Entry;
+
+public class Admin {
+
+	
+	private String userName="admin";
+	private String password="admin";
+	
+	public static HashMap<String,Client> clist=new HashMap<String,Client>();
+	
+	public static void main(String[] args) {
+		Admin a = new Admin();
+		
+		@SuppressWarnings("resource")
+		Scanner sc= new Scanner(System.in);
+		int choice;
+		int ch;
+		do {
+			
+			System.out.println("1.Admin");
+			System.out.println("2.client");
+			System.out.println("enter your choice");
+			choice=sc.nextInt();
+			sc.nextLine();
+			switch(choice){
+			case 1:System.out.println("admin username and Password");
+				   String uname=sc.next();
+				   String pass=sc.next();
+				   a.login(uname,pass); 
+				   break;
+			case 2:System.out.println("client UserName and Password");
+			       String cname=sc.next();
+			       String cpwd=sc.next();
+                    Client c1=new Client();
+			       c1.login(cname,cpwd); 
+			       break;
+			}
+			System.out.println("want to login once again press 1=to continue  2=no ");
+			ch=sc.nextInt();
+			}while(ch==1);
+			
+		}
+
+	public void login(String uname, String pass) {
+		
+		
+		if((uname.equals(userName)) && (pass.equals(password)))
+		{
+			System.out.println(" Successfullly logged");			
+			int ch;
+			do{
+			System.out.println("select your choice");
+			System.out.println("1.list clients");
+			System.out.println("2.Add client");
+			System.out.println("3.remove client");
+			System.out.println("4.logout");
+			@SuppressWarnings("resource")
+			Scanner sc=new Scanner(System.in);
+			int choice=sc.nextInt();
+			
+			
+			switch(choice){
+			case 1: listUser();
+//			System.out.println(clist);
+			        break;
+			case 2: 
+			        addClient();
+					break;
+			case 3: 
+			         System.out.println("enter account number to remove");
+			         String num=sc.next();
+			         removeClient(num);
+					break;
+			case 4:
+//				Admin a = new Admin();
+				logout();
+			//default:System.out.println("you selected wrong option");		
+			}
+			System.out.println("you want to continue 1=yes  2=no");
+			 ch =sc.nextInt();
+			}while(ch ==1);
+		}
+		else
+		{
+			System.out.println("please check your credentials");
+		}
+		
+	}
+
+	public void logout() {
+		System.out.println("logout successfully");
+		
+	}
+
+	public void removeClient(String num) {
+		
+		Admin.clist.remove(num);
+	}
+
+	public void addClient() {
+ 
+//		System.out.println();
+		@SuppressWarnings("resource")
+		Scanner sc=new Scanner(System.in);
+		System.out.println("enter client account number");
+		String accountNumber=sc.next();
+		System.out.println("enter client username");
+		String userName=sc.next();
+		System.out.println("enter client password");
+		String passWord=sc.next();
+		System.out.println("enter client balance");
+		double balance=sc.nextDouble();
+		
+		String transactionDetails=" ";
+		Client c = new Client(accountNumber,userName,passWord,balance,transactionDetails);
+		clist.put(accountNumber, c);
+
+		
+	}
+
+	public void listUser() {
+
+		for (Entry<String, Client> entry : clist.entrySet())  
+		{
+            entry.getKey() ;
+            
+            		 System.out.println("account number: " + entry.getValue().getAccountNumber());
+            		 System.out.println("name:" +entry.getValue().getUserName());
+            		 System.out.println("balance:"+entry.getValue().getBalance());
+            		 System.out.println("password:"+entry.getValue().getPassWord());
+            		 //System.out.println("transaction details:"+entry.getValue().getTransactionDetails());
+		}
+
+		
+	}
+		
+	
+	
+}
